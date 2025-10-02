@@ -3,7 +3,7 @@
     <span style="font-size: 24px; font-weight: bold;">Crear producto</span>
    </div>
  <p>Formulario para crear un nuevo producto</p>
- <form></form>
+ <form @submit.prevent="crearProducto">
     <div>
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" v-model="producto.nombre" />
@@ -42,7 +42,10 @@
         </select>
     </div>
     <button type="submit">Crear Producto</button>
-
+    </form>
+<!-- <pre>
+    {{ categorias }}
+</pre> -->
 </template>
 <script>
 import axios from 'axios';
@@ -68,6 +71,11 @@ mounted(){
 },
 
 methods:{ 
+    handFileUpload(event){ 
+        const file=event.target.files[0];
+        this.producto.imagen=file;
+    
+    },
     async categoriasGet(){ 
        axios.get('http://localhost:8000/api/categorias')
         .then(response=>{ 
@@ -81,7 +89,6 @@ crearProducto(){
     const formData=new FormData();
     for (const key in this.producto){ 
         formData.append(key,this.producto[key]);
-       
     }   
     formData.append('imagen',this.producto.imagen);
     axios.post('http://localhost:8000/api/productos',formData,{
@@ -91,7 +98,6 @@ crearProducto(){
     })
     .then(response=>{ 
         console.log('Producto creado exitosamente:',response.data);
-        // Reiniciar el formulario
         this.$router.push('/productos');
     })  
     .catch(error=>{ 

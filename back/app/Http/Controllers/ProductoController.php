@@ -12,6 +12,7 @@ class ProductoController extends Controller
     }
 
     function store(Request $request){
+
         $imagen=$request->file('imagen');
         $ruta=$imagen->store('public/imagenes');
         $nombrearchivo=basename($ruta);
