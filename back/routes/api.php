@@ -10,4 +10,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/productos',[App\Http\Controllers\ProductoController::class, 'index']);
 Route::post('/productos',[App\Http\Controllers\ProductoController::class, 'store']);
 Route::get('/categorias',[App\Http\Controllers\CategoriaController::class, 'index']);
+Route::delete('/productos/{id}',[App\Http\Controllers\ProductoController::class, 'destroy']);
 

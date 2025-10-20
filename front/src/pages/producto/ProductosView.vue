@@ -9,6 +9,7 @@
     <thead>
         <tr>
             <th>ID</th>
+            <th>Imagen</th>
             <th>Nombre</th>
             <th>Descripción</th>
             <th>Precio</th>
@@ -19,15 +20,19 @@
     <tbody>
         <tr v-bind:data-allow-mismatch="true" v-for="producto in productos" :key="producto.id">
             <td>{{ producto.id }}</td>
+           <td>
+                <img :src="`http://localhost:8000/imagenes/${producto.imagen}`" alt="Imagen del producto" style="width: 50px; height: 50px; object-fit: cover;" />
+           </td>
             <td>{{ producto.nombre }}</td>
             <td>{{ producto.descripcion }}</td>
             <td>{{ producto.precio }}</td>
+
             <td>{{ producto.categoria.nombre }}</td>
             <!-- <td>
                 <button @click="editarProducto(producto.id)">Editar</button>
-                <button @click="eliminarProducto(producto.id)">Eliminar</button>
+                
             </td> -->
-
+        <button @click="eliminarProducto(producto.id)">Eliminar</button>
         </tr>
     </tbody>
     </table>
@@ -59,7 +64,19 @@ export default {
         crearproducto() {
             this.$router.push('/productos/crear');
         },
-},
+        eliminarProducto(id) {
+            if (confirm('¿Estás seguro de que deseas eliminar este producto?')) {
+                axios.delete(`http://localhost:8000/api/productos/${id}`)
+                    .then(() => {
+                        alert('Producto eliminado exitosamente');
+                        this.productosGet(); // Refrescar la lista de productos
+                    })
+                    .catch(error => {
+                        console.error('Error al eliminar el producto:', error);                    
+                    });
+            }
+        },
+    },
  };
 </script>
 <style>

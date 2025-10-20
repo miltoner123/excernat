@@ -73,8 +73,7 @@ mounted(){
 methods:{ 
     handFileUpload(event){ 
         const file=event.target.files[0];
-        this.producto.imagen=file;
-    
+        this.producto.imagen=file;  
     },
     async categoriasGet(){ 
        axios.get('http://localhost:8000/api/categorias')
