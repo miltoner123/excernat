@@ -12,4 +12,11 @@ class CategoriaController extends Controller
     return Categoria::all();
 
     }
+    function store(Request $request){
+        $categoria=new Categoria();
+        $categoria->nombre=$request->nombre;
+        $categoria->descripcion=$request->descripcion;
+        $categoria->save();
+        return response()->json(['message'=>'Categoria creada correctamente'],201);
+    }
 }
