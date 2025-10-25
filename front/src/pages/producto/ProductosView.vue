@@ -5,6 +5,25 @@
  </div>
     
     <p>Lista de productos disponibles</p>
+    <input 
+        type="text" 
+        v-model="search" 
+        placeholder="Buscar productos..." 
+        @input="productosGet" 
+        style="margin-bottom: 20px; padding: 0.5rem; width: 100%; box-sizing: border-box;"
+    />
+    <div style="margin-bottom: 20px;">
+        <button 
+            @click="pagination.current_page --; productosGet()"
+        >
+            Anterior
+        </button>
+        <button 
+            @click="pagination.current_page++, productosGet()"
+           >
+            Siguiente
+        </button>
+    </div>
     <table>
     <thead>
         <tr>
@@ -28,11 +47,8 @@
             <td>{{ producto.precio }}</td>
 
             <td>{{ producto.categoria.nombre }}</td>
-            <!-- <td>
-                <button @click="editarProducto(producto.id)">Editar</button>
-                
-            </td> -->
-        <button @click="eliminarProducto(producto.id)">Eliminar</button>
+            <button @click="editarProducto(producto.id)">Editar</button>           
+            <button @click="eliminarProducto(producto.id)">Eliminar</button>
         </tr>
     </tbody>
     </table>
@@ -45,16 +61,24 @@ export default {
     data() {
         return {
             productos: [],
+            search: '',
+            pagination: {
+                current_page: 1,            
+            },
         }
     },
     mounted() {
         this.productosGet();
     },
     methods: {
+        editarProducto(id) {
+            this.$router.push(`/productos/editar/${id}`);
+        },
         async productosGet() {
-            axios.get('http://localhost:8000/api/productos')
+            axios.get('http://localhost:8000/api/productos?limit=10'+'&page='+this.pagination.current_page+'&search='+this.search)
                 .then(response => {
-                    this.productos = response.data;
+                    this.productos = response.data.data;
+                
                     //console.log(this.productos);
                 })
                 .catch(error => {

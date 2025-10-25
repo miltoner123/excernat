@@ -3,7 +3,7 @@
     <span style="font-size: 24px; font-weight: bold;">Crear producto</span>
    </div>
  <p>Formulario para crear un nuevo producto</p>
- <form @submit.prevent="crearProducto">
+ <form @submit.prevent="productoEditar">
     <div>
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" v-model="producto.nombre" />
@@ -22,7 +22,7 @@
     </div>
     <div>
         <label for="imagen">Imagen:</label>
-        <input type="file" id="imagen" @change="handFileUpload" required accept="image/" />
+        <input type="file" id="imagen" @change="handFileUpload" accept="image/" />
     </div>
     <div>
         <label for="fecha_vencimiento">Fecha de Vencimiento:</label>
@@ -41,32 +41,16 @@
             </option>
         </select>
     </div>
-    <button type="submit">Crear Producto</button>
-    
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-    <h2>Crear Categoria</h2>
-    <form @submit.prevent="crearCategoria">
-        <div>
-            <label for="nombre">Nombre de la Categoria:</label>
-            <input type="text" id="nombre" v-model="categoria.nombre" required>
-        </div>
-        <div>
-            <label for="descripcion">Descripción:</label>
-            <textarea id="descripcion" v-model="categoria.descripcion" required></textarea>
-        </div>           
-        <button type="submit">Crear Categoria</button>
+    <button type="submit">guardar Producto</button>
     </form>
-</form>
+<!-- <pre>
+    {{ categorias }}
+</pre> -->
 </template>
 <script>
 import axios from 'axios';
 export default {
-    name: 'ProductosCreate',
+    name: 'ProductosEditar',
   data(){
     return{ 
     producto:{ 
@@ -80,30 +64,23 @@ export default {
         categoria_id:'',
     },
     categorias:[],
-    categoria:{ 
-        nombre:'',
-        descripcion:'',
-    },
-    };
+  };
 },
 mounted(){ 
     this.categoriasGet();
+    this.productoGet();
 },
 
 methods:{ 
-    crearCategoria(){ 
-        axios.post('http://localhost:8000/api/categorias',this.categoria)
+    productoGet(){ 
+        axios.get(`http://localhost:8000/api/productos/${this.$route.params.id}`)
         .then((response)=>{ 
-            console.log('Categoria creada exitosamente:',response.data);
-            this.categoria.nombre='';
-            this.categoria.descripcion='';
-            this.categoriasGet();
+            this.producto=response.data;
         })
         .catch((error)=>{ 
-            console.error('Error al crear la categoria:',error);
+            console.error('Error al cargar el producto:',error);
         });
     },
-
     handFileUpload(event){ 
         const file=event.target.files[0];
         this.producto.imagen=file;  
@@ -117,25 +94,43 @@ methods:{
             console.error('Error al cargar las categorias:',error);
         });
     },
-crearProducto(){ 
-    const formData=new FormData();
-    for (const key in this.producto){ 
-        formData.append(key,this.producto[key]);
-    }   
-    formData.append('imagen',this.producto.imagen);
-    axios.post('http://localhost:8000/api/productos',formData,{
-        headers:{ 
-            'Content-Type':'multipart/form-data',
+        productoEditar(){ 
+            const formData=new FormData();
+            formData.append('nombre',this.producto.nombre); 
+            formData.append('descripcion',this.producto.descripcion); 
+            formData.append('precio',this.producto.precio); 
+            formData.append('lote',this.producto.lote); 
+            formData.append('imagen',this.producto.imagen); 
+            formData.append('fecha_vencimiento',this.producto.fecha_vencimiento); 
+            formData.append('unidad_medida',this.producto.unidad_medida);
+            formData.append('categoria_id',this.producto.categoria_id);
+
+            axios.post(`http://localhost:8000/api/productos/${this.$route.params.id}`,formData, { 
+                headers:{ 
+                    'Content-Type':'multipart/form-data',
+                },
+                })
+                .then((response)=>{ 
+                    console.log('Producto editado exitosamente:',response.data);
+                    this.producto={
+                        nombre: '',
+                        descripcion:'',
+                        precio:'',
+                        lote:'',
+                        imagen:'',
+                        fecha_vencimiento:'',
+                        unidad_medida:'',
+                        categoria_id:'null',
+                    };
+                    this.$router.push('/productos');
+                })
+                .catch((error)=>{ 
+                    console.error('Error al editar el producto:',error);
+                });
+
+
+
         },
-    })
-        .then(response=>{ 
-            console.log('Producto creado exitosamente:',response.data);
-            this.$router.push('/productos');
-        })  
-        .catch(error=>{ 
-            console.error('Error al crear el producto:',error);
-        });
-    },
 },
 };
 </script>
