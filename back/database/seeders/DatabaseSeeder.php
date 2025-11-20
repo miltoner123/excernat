@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+         User::factory(10)->create();
 
         // User::factory()->create([
         //     'name' => 'Test User',
@@ -44,18 +44,18 @@ class DatabaseSeeder extends Seeder
             'fecha_vencimiento'=>Carbon::create(2026,12,15),
             'categoria_id'=>1
         ]);
-        for($i=1;$i<=50;$i++){
-            Producto::create([
-                'nombre'=>'Grajeas de colores '.$i,
-                'descripcion'=>'Grajeas de colores sabor a frutas',
-                'precio'=>20.00 + $i,
-                'lote'=>'GRAJ2023'.$i,
-                'imagen'=>null,
-                'unidad_medida'=>'unidad',
-                'fecha_vencimiento'=>Carbon::create(2025,6,30),
-                'categoria_id'=>rand(1,3)
-            ]);
-        }
+        // for($i=1;$i<=50;$i++){
+        //     Producto::create([
+        //         'nombre'=>'Grajeas de colores '.$i,
+        //         'descripcion'=>'Grajeas de colores sabor a frutas',
+        //         'precio'=>20.00 + $i,
+        //         'lote'=>'GRAJ2023'.$i,
+        //         'imagen'=>null,
+        //         'unidad_medida'=>'unidad',
+        //         'fecha_vencimiento'=>Carbon::create(2025,6,30),
+        //         'categoria_id'=>rand(1,3)
+        //     ]);
+        //}
 
     }
 }
