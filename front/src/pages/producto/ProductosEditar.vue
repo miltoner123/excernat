@@ -14,7 +14,7 @@
     </div>
     <div>
         <label for="precio">Precio:</label>
-        <input type="number" id="precio" v-model="producto.precio" />
+        <input type="number" id="precio" v-model="producto.precio" step="0.01"/>
     </div>
     <div>
         <label for="lote">Lote:</label>
@@ -127,9 +127,6 @@ methods:{
                 .catch((error)=>{ 
                     console.error('Error al editar el producto:',error);
                 });
-
-
-
         },
 },
 };

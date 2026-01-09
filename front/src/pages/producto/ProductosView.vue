@@ -13,14 +13,10 @@
         style="margin-bottom: 20px; padding: 0.5rem; width: 100%; box-sizing: border-box;"
     />
     <div style="margin-bottom: 20px;">
-        <button 
-            @click="pagination.current_page --; productosGet()"
-        >
+        <button @click="pagination.current_page --; productosGet()">
             Anterior
         </button>
-        <button 
-            @click="pagination.current_page++, productosGet()"
-           >
+        <button @click="pagination.current_page++, productosGet()">
             Siguiente
         </button>
     </div>
