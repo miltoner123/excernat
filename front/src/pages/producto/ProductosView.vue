@@ -71,8 +71,13 @@ export default {
             this.$router.push(`/productos/editar/${id}`);
         },
         async productosGet() {
-            axios.get('http://localhost:8000/api/productos?limit=10'+'&page='+this.pagination.current_page+'&search='+this.search)
-                .then(response => {
+            const token = localStorage.getItem('token');
+            axios.get('http://localhost:8000/api/productos?limit=10'+'&page='+this.pagination.current_page+'&search='+this.search, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => {
                     this.productos = response.data.data;
                 
                     //console.log(this.productos);

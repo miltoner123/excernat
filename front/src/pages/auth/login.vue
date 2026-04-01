@@ -25,13 +25,14 @@ import axios from 'axios';
 
         methods: {
             async login() {
-                axios.post('http://localhost:8000/api/login', {
+                axios.post('http://localhost:8000/api/auth/login', {
                     email: this.email,
                     password: this.password
                 })
                 .then(response => {
                     console.log('Inicio de sesión exitoso:', response.data);
                     localStorage.setItem('token', response.data.token);
+                    this.$router.push('/');
                 })
                 .catch(error => {
                     //console.error('Error al iniciar sesión:', error);

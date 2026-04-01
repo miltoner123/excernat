@@ -10,7 +10,7 @@ import ProductosView from './pages/producto/ProductosView.vue'
 
 const routes = [
   { path: '/', component: HomeView },
-  { path: '/about', component: AboutView },
+  { path: '/about', component: AboutView },  
   { path: '/productos', component:  ProductosView },
   { path: '/productos/crear', component:  () => import('./pages/producto/ProductosCreate.vue') },
   { path: '/productos/editar/:id', component:  () => import('./pages/producto/ProductosEditar.vue') },
@@ -18,7 +18,20 @@ const routes = [
   { path: '/usuarios/crear', component: () => import('./pages/usuarios/UserCreate.vue')},
   { path: '/usuarios/editar/:id', component: () => import('./pages/usuarios/UserEdit.vue')},
   { path: '/usuarios/:id', component: () => import('./pages/usuarios/UserShow.vue')},
-  { path: '/login', component: () => import('./pages/auth/login.vue')}
+  { path: '/login', component: () => import('./pages/auth/login.vue')},
+  { path: '/roles', component: () => import('./pages/roles/Roles.vue')},
+
+  { path: '/roles/crear', component: () => import('./pages/roles/RolesCreate.vue')},
+  { path: '/roles/:id', component: () => import('./pages/roles/RolesView.vue')},
+
+  { path: '/permisos', component: () => import('./pages/permisos/Permiso.vue')},
+  { path: '/permisos/crear', component: () => import('./pages/permisos/PermisoCreate.vue')},
+  { path: '/permisos/:id', component: () => import('./pages/permisos/PermisoView.vue')},
+
+
+  //{ path: '/roles/editar/:id', component: () => import('./pages/roles/RolesEdit.vue')}
+
+
 ]
 
 const router = createRouter({
