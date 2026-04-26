@@ -43,8 +43,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/permisos/{id}',[App\Http\Controllers\PermisoController::class, 'show']);
     Route::delete('/permisos/{id}',[App\Http\Controllers\PermisoController::class, 'destroy']);
 
-
-
+    Route::get('/users/{id}/roles',[App\Http\Controllers\UserController::class, 'getUserRoles']);
 });
 
 

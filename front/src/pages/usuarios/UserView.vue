@@ -8,6 +8,7 @@
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Email</th>
+                <th>Roles</th>
                 <th>Opciones</th>
             </tr>
         </thead>
@@ -16,6 +17,11 @@
                 <td>{{ user.id }}</td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.email }}</td>
+                <td>
+                    <ul>
+                        <li v-for="role in user.roles" :key="role.id">{{ role.nombre }}</li>
+                    </ul>
+                </td>
                 <td>
                     <button @click="editUser( user.id)">Editar</button>
                     <button @click="deleteUser(user.id)">Eliminar</button>              
